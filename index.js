@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const csv = require('csv-parser');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,7 +17,8 @@ app.get('/api/sensor-stream', (req, res) => {
 
     const results = [];
     
-    fs.createReadStream('merged.csv')
+    const csvFilePath = path.join(__dirname, 'merged.csv');
+    fs.createReadStream(csvFilePath)
         .pipe(csv())
         .on('data', (data) => results.push(data))
         .on('end', () => {
@@ -40,4 +42,6 @@ app.get('/api/sensor-stream', (req, res) => {
         });
 });
 
-app.listen(PORT, () => {});
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
