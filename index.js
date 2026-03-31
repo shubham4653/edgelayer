@@ -17,7 +17,7 @@ app.get('/api/sensor-stream', (req, res) => {
 
     const results = [];
     
-    const csvFilePath = path.join(__dirname, 'merged.csv');
+    const csvFilePath = path.join(__dirname, 'sample.csv');
     fs.createReadStream(csvFilePath)
         .pipe(csv())
         .on('data', (data) => results.push(data))
