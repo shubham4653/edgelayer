@@ -86,8 +86,7 @@ app.get('/api/sensor-stream', (req, res) => {
     let seq = 0;
     const lines = [];
 
-    // Read all lines into an array (since sample.csv is small)
-   // Read all lines into an array
+// Read all lines into an array
     rl.on('line', (line) => {
         if (isFirstLine) {
             isFirstLine = false; // Skip CSV headers
@@ -100,8 +99,8 @@ app.get('/api/sensor-stream', (req, res) => {
                 return isNaN(num) ? val : num;
             });
             
-            // ✂️ DROP THE LAST COLUMN (The Label) ✂️
-            featureArray = featureArray.slice(0, -1);
+            // ✂️ DROP THE FIRST (Timestamp) AND LAST (Label) COLUMNS ✂️
+            featureArray = featureArray.slice(1, -1);
             
             lines.push(featureArray);
         }
