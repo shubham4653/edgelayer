@@ -88,10 +88,10 @@ app.get('/api/sensor-stream', (req, res) => {
 
 // Read all lines into an array
     rl.on('line', (line) => {
-        if (isFirstLine) {
-            isFirstLine = false; // Skip CSV headers
-            return;
-        }
+        // if (isFirstLine) {
+        //     isFirstLine = false; // Skip CSV headers
+        //     return;
+        // }
         if (line.trim()) {
             // Convert CSV row to an array of values.
             let featureArray = line.split(',').map(val => {
@@ -100,7 +100,7 @@ app.get('/api/sensor-stream', (req, res) => {
             });
             
             // ✂️ DROP THE FIRST (Timestamp) AND LAST (Label) COLUMNS ✂️
-            featureArray = featureArray.slice(1, -1);
+            //featureArray = featureArray.slice(1, -1);
             
             lines.push(featureArray);
         }
