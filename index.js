@@ -87,17 +87,22 @@ app.get('/api/sensor-stream', (req, res) => {
     const lines = [];
 
     // Read all lines into an array (since sample.csv is small)
+   // Read all lines into an array
     rl.on('line', (line) => {
         if (isFirstLine) {
             isFirstLine = false; // Skip CSV headers
             return;
         }
         if (line.trim()) {
-            // Convert CSV row to an array of values. Convert numbers to floats where applicable.
-            const featureArray = line.split(',').map(val => {
+            // Convert CSV row to an array of values.
+            let featureArray = line.split(',').map(val => {
                 const num = Number(val);
                 return isNaN(num) ? val : num;
             });
+            
+            // ✂️ DROP THE LAST COLUMN (The Label) ✂️
+            featureArray = featureArray.slice(0, -1);
+            
             lines.push(featureArray);
         }
     });
